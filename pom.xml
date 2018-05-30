@@ -5,9 +5,9 @@
   <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-  	<module>../../../gitcbs/api/com.chaboshi.api.sign</module>
-  	<module>../../../gitcbs/api/com.chaboshi.api.sign.detection</module>
-  	<module>../../../gitcbs/api/com.chaboshi.api.sign.valuate</module>
-  	<module>../../../gitcbs/api/com.chaboshi.api.sign.warranty</module>
+  	<module>com.chaboshi.api.sign</module>
+  	<module>com.chaboshi.api.sign.detection</module>
+  	<module>com.chaboshi.api.sign.valuate</module>
+  	<module>com.chaboshi.api.sign.warranty</module>
   </modules>
 </project>
