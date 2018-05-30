@@ -6,7 +6,11 @@
 	<artifactId>com.chaboshi.api.sign.detection</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
+	<parent>
+		<groupId>com.chaboshi</groupId>
+		<artifactId>sign-parent</artifactId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
 	<name>com.chaboshi.api.sign.detection</name>
 	<url>http://maven.apache.org</url>
 
