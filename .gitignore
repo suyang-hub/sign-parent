@@ -1,0 +1,12 @@
+/target/
+/.settings/
+.classpath
+.project
+*/.settings/
+*/target/
+*/.classpath
+*/.project
+*/.gitignore
+*.iml
+/*.iml
+.idea/*
