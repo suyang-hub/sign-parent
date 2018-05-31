@@ -47,7 +47,20 @@ public class CBS {
     if (cbs == null) {
       cbs = new CBS(userid, keySecret, onLine);
     }
+    return cbs;
+  }
 
+  public static synchronized CBS getInstance(String userid, String keySecret, String urlCommon) {
+    if (userid == null || userid.isEmpty()) {
+      return null;
+    }
+    if (keySecret == null || keySecret.isEmpty()) {
+      return null;
+    }
+    if (cbs == null) {
+      cbs = new CBS(userid, keySecret, true);
+    }
+    CBS.urlCommen = urlCommon;
     return cbs;
   }
 
