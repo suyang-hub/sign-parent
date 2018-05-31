@@ -4,11 +4,13 @@ import org.junit.Test;
 
 import com.chaboshi.util.CBS;
 
+import java.util.Map;
+
 public class TestCBS {
 
-	private static final String userId = "49";
-	private static final String keySecret = "70d6499403bb13acd294b8822cf41b4f";
-	private static final String orderNo = "06a1bd85f20340a0ae17810f38083ed4";
+	private static final String userId = "81";
+	private static final String keySecret = "b22148ef09978c7c6f584b7154ed4d0e";
+	private static final String orderNo = "889e9cd3c6564ba885863dd9294726fe";
 	
 	@Test
 	public void testBuyReport() {
@@ -25,7 +27,14 @@ public class TestCBS {
 		String newReportJson = CBS.getInstance(userId, keySecret).getNewReportJson(orderNo);
 		System.out.println(newReportJson);
 	}
-	
+
+
+	@Test
+	public void testGetReport() {
+		Map<String, String> newReportJson = CBS.getInstance(userId, keySecret).getNewReportUrl(orderNo);
+		System.out.println(newReportJson);
+	}
+
 	
 	
 	
