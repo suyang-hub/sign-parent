@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class TestCBS {
 
-	private static final String userId = "81";
-	private static final String keySecret = "b22148ef09978c7c6f584b7154ed4d0e";
-	private static final String orderNo = "889e9cd3c6564ba885863dd9294726fe";
+	private static final String userId = "109263";
+	private static final String keySecret = "8d748ea2e9ac51b80eddcd062097ff9d";
+	private static final String orderNo = "cd5c747036764b6c9dd3bf441a3d0c13";
 	
 	@Test
 	public void testBuyReport() {
@@ -25,6 +25,12 @@ public class TestCBS {
 	@Test
 	public void testGetReportJson() {
 		String newReportJson = CBS.getInstance(userId, keySecret).getNewReportJson(orderNo);
+		System.out.println(newReportJson);
+	}
+
+	@Test
+	public void testGetReportStatus() {
+		String newReportJson = CBS.getInstance(userId, keySecret).getReportJson(orderNo);
 		System.out.println(newReportJson);
 	}
 
