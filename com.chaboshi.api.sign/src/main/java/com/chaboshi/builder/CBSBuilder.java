@@ -60,7 +60,25 @@ public class CBSBuilder {
 
 
 	/**
-	 * 发送请求
+	 * 发送POST请求
+	 * @param suffix 请求地址：/demo/test
+	 * @return json{data}
+	 */
+	public String sendPost(String suffix) {
+		return sendPost(suffix, null);
+	}
+
+	/**
+	 * 发送GET请求
+	 * @param suffix 请求地址：/demo/test
+	 * @return json{data}
+	 */
+	public String sendGet(String suffix) {
+		return sendGet(suffix, null);
+	}
+
+	/**
+	 * 发送POST请求
 	 * @param suffix 请求地址：/demo/test
 	 * @param params 除构建参数以外的所有参数 (构建参数为：userId, keySecret)
 	 * @return json{data}
@@ -68,8 +86,10 @@ public class CBSBuilder {
 	public String sendPost(String suffix, HashMap<String, Object> params) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(CBSField.USER_ID).append("=").append(userId);
-		for (String key : params.keySet()) {
-			sb.append("&").append(key).append("=").append(params.get(key));
+		if(params != null) {
+			for (String key : params.keySet()) {
+				sb.append("&").append(key).append("=").append(params.get(key));
+			}
 		}
 		long timestamp = System.currentTimeMillis();
 		String nonce = UUID.randomUUID().toString();
@@ -79,6 +99,35 @@ public class CBSBuilder {
 			String signature = SignUtil.getSignature(keySecret, sb.toString());
 			sb.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
 			String data = HttpRequest.sendPost(URL + suffix, sb.toString());
+			return data;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 发送GET请求
+	 * @param suffix 请求地址：/demo/test
+	 * @param params 除构建参数以外的所有参数 (构建参数为：userId, keySecret)
+	 * @return json{data}
+	 */
+	public String sendGet(String suffix, HashMap<String, Object> params) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(CBSField.USER_ID).append("=").append(userId);
+		if(params != null) {
+			for (String key : params.keySet()) {
+				sb.append("&").append(key).append("=").append(params.get(key));
+			}
+		}
+		long timestamp = System.currentTimeMillis();
+		String nonce = UUID.randomUUID().toString();
+		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
+		sb.append("&").append(CBSField.NONCE).append("=").append(nonce);
+		try {
+			String signature = SignUtil.getSignature(keySecret, sb.toString());
+			sb.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
+			String data = HttpRequest.sendGet(URL + suffix, sb.toString());
 			return data;
 		} catch (Exception e) {
 			e.printStackTrace();
