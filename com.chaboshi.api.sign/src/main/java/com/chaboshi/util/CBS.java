@@ -52,8 +52,6 @@ public class CBS {
     if (instance == null) {
       instance = new CBS(userid, keySecret, onLine);
     }
-    return cbs;
-  }
 
     return instance;
   }
