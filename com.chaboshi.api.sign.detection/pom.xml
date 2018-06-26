@@ -4,7 +4,6 @@
 
 	<groupId>com.chaboshi.api</groupId>
 	<artifactId>com.chaboshi.api.sign.detection</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<parent>
 		<groupId>com.chaboshi</groupId>

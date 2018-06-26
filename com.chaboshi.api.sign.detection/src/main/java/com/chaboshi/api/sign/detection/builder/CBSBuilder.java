@@ -1,8 +1,8 @@
-package com.chaboshi.builder;
+package com.chaboshi.api.sign.detection.builder;
 
-import com.chaboshi.constants.CBSField;
-import com.chaboshi.http.HttpRequest;
-import com.chaboshi.signUtil.SignUtil;
+import com.chaboshi.api.sign.detection.constants.CBSField;
+import com.chaboshi.api.sign.detection.http.HttpRequest;
+import com.chaboshi.api.sign.detection.signutil.SignUtil;
 
 import java.util.HashMap;
 import java.util.UUID;

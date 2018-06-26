@@ -56,7 +56,7 @@ public class CBSInsurance {
 	 * @param address
 	 * @param type
 	 *        type ：  101-事故保本地检测    102-事故保异地代检  201-车况保
-	 * @param orderNO   
+	 * @param orderNO
 	 *        orderNo : 第三方订单号
 	 * @param callbackUrl
 	 *        回调地址
@@ -70,7 +70,7 @@ public class CBSInsurance {
 	}
 
 
-	
+
 	/**
 	 * 获取事故保开放的城市
 	 * @return
@@ -97,8 +97,8 @@ public class CBSInsurance {
 
 		return sendPost;
 	}
-	
-	
+
+
 	/**
 	 * 通过订单号获取查看检测报告的url
 	 * @param orderNo
@@ -110,6 +110,24 @@ public class CBSInsurance {
 
 		return url + "?" + param;
 	}
+
+
+	// 只提供给58放心车
+//	public String getInsurancestatus(String orderNo) {
+//		String param = param(null, null, null, null, null, orderNo, null, null);
+//		String url = new StringBuilder().append(url_commen).append("/insurance/orderstatus").toString();
+//		String sendPost = HttpRequest.sendPost(url, param);
+//
+//		return sendPost;
+//	}
+
+//	public String cancelDetection(String orderNo) {
+//		String param = param(null, null, null, null, null, orderNo, null, null);
+//		String url = new StringBuilder().append(url_commen).append("/insurance/cancel").toString();
+//		String sendPost = HttpRequest.sendPost(url, param);
+//
+//		return sendPost;
+//	}
 
 
 	/**
@@ -155,7 +173,7 @@ public class CBSInsurance {
 		if(vin != null && !vin.equals("")) {
 			content.append("&vin").append("=").append(vin);
 		}
-		
+
 		String signAture = null;
 		try {
 			signAture = SignUtil.getSignature(keySecret, content.toString());

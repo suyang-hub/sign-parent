@@ -8,7 +8,6 @@
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>com.chaboshi.api.sign.valuate</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>com.chaboshi.api.sign.valuate</name>
 	<distributionManagement>
