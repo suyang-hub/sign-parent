@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chaboshi.http.HttpRequest;
 import com.chaboshi.http.OCRHttpHelper;
 import com.chaboshi.signUtil.SignUtil;
@@ -16,6 +19,8 @@ import com.chaboshi.signUtil.SignUtil;
  *
  */
 public class CBS {
+
+  private static final Logger logger = LoggerFactory.getLogger(CBS.class);
   /**
    * 用户id
    */
@@ -25,15 +30,15 @@ public class CBS {
    */
   private final String keySecret;
 
-  private static CBS cbs = null;
+  private static CBS instance = null;
 
-  private static String urlCommen = "http://api.chaboshi.cn";
+  private static String urlCommon = "http://api.chaboshi.cn";
 
   private CBS(String userid, String keySecret, boolean onLine) {
     this.userid = userid;
     this.keySecret = keySecret;
     if (!onLine) {
-      urlCommen = "http://tapi.chaboshi.cn";
+      urlCommon = "http://tapi.chaboshi.cn";
     }
   }
 
@@ -44,24 +49,13 @@ public class CBS {
     if (keySecret == null || keySecret.isEmpty()) {
       return null;
     }
-    if (cbs == null) {
-      cbs = new CBS(userid, keySecret, onLine);
+    if (instance == null) {
+      instance = new CBS(userid, keySecret, onLine);
     }
     return cbs;
   }
 
-  public static synchronized CBS getInstance(String userid, String keySecret, String urlCommon) {
-    if (userid == null || userid.isEmpty()) {
-      return null;
-    }
-    if (keySecret == null || keySecret.isEmpty()) {
-      return null;
-    }
-    if (cbs == null) {
-      cbs = new CBS(userid, keySecret, true);
-    }
-    CBS.urlCommen = urlCommon;
-    return cbs;
+    return instance;
   }
 
   /**
@@ -87,7 +81,7 @@ public class CBS {
    */
   public String getBuyReport(String vin, String enginno, String licensePlate, String callbackurl) {
     String param = param(vin, enginno, licensePlate, callbackurl);
-    String url = urlCommen + "/report/buy_report";
+    String url = urlCommon + "/report/buy_report";
     String sendPost = HttpRequest.sendPost(url, param);
 
     return sendPost;
@@ -101,7 +95,7 @@ public class CBS {
    */
   public String getReportStatus(String orderid) {
     String param = this.param(orderid);
-    String url = urlCommen + "/report/get_report_status";
+    String url = urlCommon + "/report/get_report_status";
     String sendGet = HttpRequest.sendGet(url, param);
     return sendGet;
   }
@@ -114,7 +108,7 @@ public class CBS {
    */
   public String getCheckBrand(String vin) {
     String param = this.checkVin(vin);
-    String url = urlCommen + "/report/check_brand";
+    String url = urlCommon + "/report/check_brand";
     String sendGet = HttpRequest.sendGet(url, param);
     return sendGet;
   }
@@ -128,8 +122,8 @@ public class CBS {
   public Map<String, String> getReportUrl(String orderid) {
     Map<String, String> result = new HashMap<String, String>();
     String param = this.param(orderid);
-    String urlPC = urlCommen + "/report/show_report?" + param;
-    String urlMobile = urlCommen + "/report/show_reportMobile?" + param;
+    String urlPC = urlCommon + "/report/show_report?" + param;
+    String urlMobile = urlCommon + "/report/show_reportMobile?" + param;
     result.put("pcUrl", urlPC);
     result.put("mobileUrl", urlMobile);
     return result;
@@ -144,8 +138,8 @@ public class CBS {
   public Map<String, String> getNewReportUrl(String orderid) {
     Map<String, String> result = new HashMap<String, String>();
     String param = this.param(orderid);
-    String urlPC = urlCommen + "/new_report/show_report?" + param;
-    String urlMobile = urlCommen + "/new_report/show_reportMobile?" + param;
+    String urlPC = urlCommon + "/new_report/show_report?" + param;
+    String urlMobile = urlCommon + "/new_report/show_reportMobile?" + param;
     result.put("pcUrl", urlPC);
     result.put("mobileUrl", urlMobile);
     return result;
@@ -159,7 +153,7 @@ public class CBS {
    */
   public String getReportJson(String orderid) {
     String param = this.param(orderid);
-    String url = urlCommen + "/report/get_report";
+    String url = urlCommon + "/report/get_report";
     String sendGet = HttpRequest.sendGet(url, param);
     return sendGet;
   }
@@ -172,7 +166,7 @@ public class CBS {
    */
   public String getNewReportJson(String orderid) {
     String param = this.param(orderid);
-    String url = urlCommen + "/new_report/get_report";
+    String url = urlCommon + "/new_report/get_report";
     System.out.println(url + "?" + param);
     String sendGet = HttpRequest.sendGet(url, param);
     return sendGet;
@@ -180,7 +174,7 @@ public class CBS {
 
   public String getAllCity() {
     String param = param(null, null, null, null);
-    String url = urlCommen + "/evaluate/getallcity";
+    String url = urlCommon + "/evaluate/getallcity";
     String sendGet = HttpRequest.sendPost(url, param);
 
     return sendGet;
@@ -188,28 +182,28 @@ public class CBS {
 
   public String getAllBrand() {
     String param = param(null, null, null, null);
-    String url = urlCommen + "/evaluate/getallbrand";
+    String url = urlCommon + "/evaluate/getallbrand";
     String sendGet = HttpRequest.sendPost(url, param);
     return sendGet;
   }
 
   public String getSeriesByBrandId(String brandId) {
     String param = paramEvaluate(this.userid, null, null, brandId, null, null, null, null);
-    String url = urlCommen + "/evaluate/getseries";
+    String url = urlCommon + "/evaluate/getseries";
     String sendGet = HttpRequest.sendPost(url, param);
     return sendGet;
   }
 
   public String getModelBySeriesId(String seriesId) {
     String param = paramEvaluate(this.userid, null, null, null, seriesId, null, null, null);
-    String url = urlCommen + "/evaluate/getmodel";
+    String url = urlCommon + "/evaluate/getmodel";
     String sendGet = HttpRequest.sendPost(url, param);
     return sendGet;
   }
 
   public String getCarPrice(String orderId, String cityId, String modelId, String regDate, String mile) {
     String param = paramEvaluate(this.userid, orderId, modelId, null, null, regDate, cityId, mile);
-    String url = urlCommen + "/evaluate/getcarprice";
+    String url = urlCommon + "/evaluate/getcarprice";
     String sendGet = HttpRequest.sendPost(url, param);
 
     return sendGet;
@@ -217,7 +211,7 @@ public class CBS {
 
   public String getDocumentByOrderNo(String orderNo) {
     String param = param(orderNo);
-    String url = urlCommen + "/report/get_archives";
+    String url = urlCommon + "/report/get_archives";
     String sendPost = HttpRequest.sendPost(url, param);
 
     return sendPost;
@@ -234,7 +228,7 @@ public class CBS {
       return null;
     }
 
-    String urlOCR = urlCommen + "/ocr/uploadPic";
+    String urlOCR = urlCommon + "/ocr/uploadPic";
     long timestamp = System.currentTimeMillis();
     String nonce = UUID.randomUUID().toString();
     String signature = getSignature(nonce, timestamp + "");
@@ -243,7 +237,7 @@ public class CBS {
     try {
       textMap.put("signature", URLDecoder.decode(signature, "UTF-8"));
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("", e);
     }
     textMap.put("nonce", nonce);
     textMap.put("timestamp", timestamp + "");
@@ -261,7 +255,7 @@ public class CBS {
    */
   public String updateReport(String orderid, String callbackUrl) {
     String param = this.param(orderid, null, null, null, callbackUrl);
-    String url = urlCommen + "/report/update_report";
+    String url = urlCommon + "/report/update_report";
     String sendGet = HttpRequest.sendPost(url, param);
     return sendGet;
   }
@@ -274,7 +268,7 @@ public class CBS {
    */
   public String getUpdateTime(String orderid) {
     String param = this.param(orderid);
-    String url = urlCommen + "/report/get_report_updatetime";
+    String url = urlCommon + "/report/get_report_updatetime";
     String sendGet = HttpRequest.sendGet(url, param);
     return sendGet;
   }
@@ -290,7 +284,7 @@ public class CBS {
     if (nonce == null || nonce.isEmpty() || timestamp == null || timestamp.isEmpty()) {
       return null;
     }
-    StringBuffer content = new StringBuffer();
+    StringBuilder content = new StringBuilder();
     // 随机数
     content.append("nonce").append('=').append(nonce);
     // 时间戳
@@ -299,13 +293,7 @@ public class CBS {
     // 用户id
     content.append("&userid").append("=").append(userid);
     // 签名
-    String signAture = null;
-    try {
-      signAture = SignUtil.getSignature(keySecret, content.toString());
-    } catch (Exception e) {
-      e.printStackTrace();
-      return null;
-    }
+    String signAture = getSignature(content);
 
     return signAture;
   }
@@ -385,12 +373,7 @@ public class CBS {
     }
 
     // 签名
-    String signAture = null;
-    try {
-      signAture = SignUtil.getSignature(keySecret, content.toString());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    String signAture = getSignature(content);
     content.append("&signature").append('=').append(signAture);
 
     return content.toString();
@@ -439,15 +422,18 @@ public class CBS {
       content.append("&mile").append('=').append(mile);
     }
 
-    String signAture = null;
-    try {
-      signAture = SignUtil.getSignature(this.keySecret, content.toString());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    String signAture = getSignature(content);
     content.append("&signature").append('=').append(signAture);
 
     return content.toString();
   }
 
+  private String getSignature(StringBuilder content) {
+    try {
+      return SignUtil.getSignature(keySecret, content.toString());
+    } catch (Exception e) {
+      logger.error("", e);
+    }
+    return null;
+  }
 }

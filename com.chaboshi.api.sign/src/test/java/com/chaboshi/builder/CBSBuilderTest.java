@@ -1,10 +1,9 @@
 package com.chaboshi.builder;
 
-import com.chaboshi.util.CBS;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class CBSBuilderTest {
 
