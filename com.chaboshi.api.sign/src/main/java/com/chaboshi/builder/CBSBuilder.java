@@ -14,7 +14,7 @@ import java.util.UUID;
  ****************************************
  */
 public class CBSBuilder {
-	private final String CBS_TEST = "http://localhost:8080";
+	private final String CBS_TEST = "http://tapi.chaboshi.cn";
 	private final String CBS_ONLINE = "https://api.chaboshi.cn";
 
 	/**
