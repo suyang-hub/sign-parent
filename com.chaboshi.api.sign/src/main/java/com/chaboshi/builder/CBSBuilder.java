@@ -14,7 +14,7 @@ import java.util.UUID;
  ****************************************
  */
 public class CBSBuilder {
-	private final String CBS_TEST = "http://tapi.chaboshi.cn";
+	private final String CBS_TEST = "http://localhost:8080";
 	private final String CBS_ONLINE = "https://api.chaboshi.cn";
 
 	/**
@@ -88,7 +88,10 @@ public class CBSBuilder {
 		sb.append(CBSField.USER_ID).append("=").append(userId);
 		if(params != null) {
 			for (String key : params.keySet()) {
-				sb.append("&").append(key).append("=").append(params.get(key));
+				Object value = params.get(key);
+				if(value == null || (String) value == "") {
+					sb.append("&").append(key).append("=").append(value);
+				}
 			}
 		}
 		long timestamp = System.currentTimeMillis();
