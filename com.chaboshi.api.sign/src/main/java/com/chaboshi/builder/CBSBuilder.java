@@ -14,7 +14,7 @@ import java.util.UUID;
  ****************************************
  */
 public class CBSBuilder {
-	private final String CBS_TEST = "http://localhost:8080";
+	private final String CBS_TEST = "http://tapi.chaboshi.cn";
 	private final String CBS_ONLINE = "https://api.chaboshi.cn";
 
 	/**
@@ -52,7 +52,7 @@ public class CBSBuilder {
 		if (userId == null || keySecret == null || userId.isEmpty() || keySecret.isEmpty()) {
 			throw new RuntimeException("构建参数错误！");
 		}
-		if (cbsBuilder == null) {
+		if (cbsBuilder == null || !userId.equals(cbsBuilder.userId)) {
 			cbsBuilder = new CBSBuilder(userId, keySecret, onLine);
 		}
 		return cbsBuilder;
