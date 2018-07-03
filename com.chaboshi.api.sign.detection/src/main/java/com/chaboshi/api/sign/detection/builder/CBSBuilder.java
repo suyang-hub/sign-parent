@@ -52,7 +52,7 @@ public class CBSBuilder {
 		if (userId == null || keySecret == null || userId.isEmpty() || keySecret.isEmpty()) {
 			throw new RuntimeException("构建参数错误！");
 		}
-		if (cbsBuilder == null) {
+		if (cbsBuilder == null || !userId.equals(cbsBuilder.userId)) {
 			cbsBuilder = new CBSBuilder(userId, keySecret, onLine);
 		}
 		return cbsBuilder;
