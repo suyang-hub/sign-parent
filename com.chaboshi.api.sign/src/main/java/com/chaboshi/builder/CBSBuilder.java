@@ -84,22 +84,9 @@ public class CBSBuilder {
 	 * @return json{data}
 	 */
 	public String sendPost(String suffix, HashMap<String, Object> params) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(CBSField.USER_ID).append("=").append(userId);
-		if(params != null) {
-			for (String key : params.keySet()) {
-				Object value = params.get(key);
-				sb.append("&").append(key).append("=").append(value);
-			}
-		}
-		long timestamp = System.currentTimeMillis();
-		String nonce = UUID.randomUUID().toString();
-		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
-		sb.append("&").append(CBSField.NONCE).append("=").append(nonce);
-		try {
-			String signature = SignUtil.getSignature(keySecret, sb.toString());
-			sb.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
-			String data = HttpRequest.sendPost(URL + suffix, sb.toString());
+		try{
+			String paramsStr = sign(params);
+			String data = HttpRequest.sendPost(URL + suffix, paramsStr);
 			return data;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,21 +101,9 @@ public class CBSBuilder {
 	 * @return json{data}
 	 */
 	public String sendGet(String suffix, HashMap<String, Object> params) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(CBSField.USER_ID).append("=").append(userId);
-		if(params != null) {
-			for (String key : params.keySet()) {
-				sb.append("&").append(key).append("=").append(params.get(key));
-			}
-		}
-		long timestamp = System.currentTimeMillis();
-		String nonce = UUID.randomUUID().toString();
-		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
-		sb.append("&").append(CBSField.NONCE).append("=").append(nonce);
 		try {
-			String signature = SignUtil.getSignature(keySecret, sb.toString());
-			sb.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
-			String data = HttpRequest.sendGet(URL + suffix, sb.toString());
+			String paramsStr = sign(params);
+			String data = HttpRequest.sendGet(URL + suffix, paramsStr);
 			return data;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,4 +111,21 @@ public class CBSBuilder {
 		return null;
 	}
 
+	String sign(HashMap<String, Object> params) throws Exception {
+		StringBuilder sb = new StringBuilder();
+		sb.append(CBSField.USER_ID).append("=").append(userId);
+		if(params != null) {
+			for (String key : params.keySet()) {
+				Object value = params.get(key);
+				sb.append("&").append(key).append("=").append(value);
+			}
+		}
+		long timestamp = System.currentTimeMillis();
+		String nonce = UUID.randomUUID().toString();
+		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
+		sb.append("&").append(CBSField.NONCE).append("=").append(nonce);
+		String signature = SignUtil.getSignature(keySecret, sb.toString());
+		sb.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
+		return sb.toString();
+	}
 }
