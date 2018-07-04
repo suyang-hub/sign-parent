@@ -89,9 +89,7 @@ public class CBSBuilder {
 		if(params != null) {
 			for (String key : params.keySet()) {
 				Object value = params.get(key);
-				if(value == null || (String) value == "") {
-					sb.append("&").append(key).append("=").append(value);
-				}
+				sb.append("&").append(key).append("=").append(value);
 			}
 		}
 		long timestamp = System.currentTimeMillis();
