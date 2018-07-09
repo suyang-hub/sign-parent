@@ -1,8 +1,8 @@
-package com.chaboshi.builder;
+package com.chaboshi.api.sign.warranty.builder;
 
-import com.chaboshi.constants.CBSField;
-import com.chaboshi.http.HttpRequest;
-import com.chaboshi.signUtil.SignUtil;
+import com.chaboshi.api.sign.warranty.constants.CBSField;
+import com.chaboshi.api.sign.warranty.http.HttpRequest;
+import com.chaboshi.api.sign.warranty.signutil.SignUtil;
 
 import java.util.HashMap;
 import java.util.UUID;

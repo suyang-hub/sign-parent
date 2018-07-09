@@ -67,6 +67,23 @@ public class CBSBuilderTest {
 		System.out.println(s);
 	}
 
+	@Test
+	public void order() {
+		CBSBuilder cbsBuilder = CBSBuilder.newCBSBuilder("106977", "5347e002ac91e308560786141caf359f", false);
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("vin", "LBEYFAKD0BY021276");
+		params.put("modelid", 90999);
+		params.put("regtime", "2015-9-23");
+		params.put("watchmiles", "12345");
+		params.put("phone", "17600232953");
+		params.put("name", "张三丰");
+		params.put("carno", "京A1234A");
+		params.put("engineno", "sdfdsfdsdf");
+		params.put("packages", "12");
+		params.put("year", "1");
+		String result = cbsBuilder.sendPost("/warranty/v1/order", params);
+		System.out.println(result);
+	}
 
 
 }
