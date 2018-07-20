@@ -1,7 +1,6 @@
 package com.chaboshi.builder;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 
@@ -86,4 +85,15 @@ public class CBSBuilderTest {
 	}
 
 
+	@Test
+	public void getReportUrl() {
+		final String userId = "42340";
+		final String keySecret = "9040091791bc4aad278ded92bd4b897c";
+		String orderid = "50331ece5b6349fe95b8d9cdf334261c";
+		CBSBuilder cbsBuilder = CBSBuilder.newCBSBuilder(userId, keySecret, true);
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("orderid", orderid);
+		String s = cbsBuilder.getReportUrl("/claim/report/show", params);
+		System.out.println(s);
+	}
 }
