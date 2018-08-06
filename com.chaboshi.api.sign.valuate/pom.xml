@@ -10,18 +10,6 @@
 	<artifactId>com.chaboshi.api.sign.valuate</artifactId>
 	<packaging>jar</packaging>
 	<name>com.chaboshi.api.sign.valuate</name>
-	<distributionManagement>
-		<repository>
-			<id>nexus-releases</id>
-			<name>Nexus Release Repository</name>
-			<url>http://maven.chaboshi.cn/nexus/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<name>Nexus Snapshot Repository</name>
-			<url>http://maven.chaboshi.cn/nexus/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<properties>
 		<lib.dir>${project.build.directory}/lib</lib.dir>
@@ -40,6 +28,16 @@
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
+            <!-- 让maven插件跳过单元测试 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
 			<!-- 生成sources源码包的插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
