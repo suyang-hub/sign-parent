@@ -111,6 +111,23 @@ public class CBSBuilder {
 		return null;
 	}
 
+	/**
+	 * 获取报告URL地址
+	 * @param suffix 请求地址：/report/show
+	 * @param params 除构建参数以外的所有参数 (构建参数为：userId, keySecret)
+	 * @return URL
+	 */
+	public String getReportURL(String suffix, HashMap<String, Object> params) {
+		try {
+			String paramsStr = sign(params);
+			return URL + suffix + "?" + paramsStr;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
 	String sign(HashMap<String, Object> params) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append(CBSField.USER_ID).append("=").append(userId);
