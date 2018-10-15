@@ -3,12 +3,13 @@ package com.chaboshi.builder;
 import com.chaboshi.constants.CBSField;
 import com.chaboshi.http.HttpRequest;
 import com.chaboshi.signUtil.SignUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 /*
- * @desc
+ * @desc	新版签名SDK
  * @author 	Zack
  * @date 	2018/6/4
  ****************************************
@@ -117,9 +118,13 @@ public class CBSBuilder {
 		if(params != null) {
 			for (String key : params.keySet()) {
 				Object value = params.get(key);
+				if (value == null || StringUtils.isBlank(String.valueOf(value))) {
+					continue;
+				}
 				sb.append("&").append(key).append("=").append(value);
 			}
 		}
+		System.out.println(sb.toString());
 		long timestamp = System.currentTimeMillis();
 		String nonce = UUID.randomUUID().toString();
 		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);

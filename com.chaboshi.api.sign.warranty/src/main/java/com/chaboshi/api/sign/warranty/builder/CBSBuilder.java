@@ -3,6 +3,7 @@ package com.chaboshi.api.sign.warranty.builder;
 import com.chaboshi.api.sign.warranty.constants.CBSField;
 import com.chaboshi.api.sign.warranty.http.HttpRequest;
 import com.chaboshi.api.sign.warranty.signutil.SignUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -117,6 +118,9 @@ public class CBSBuilder {
 		if(params != null) {
 			for (String key : params.keySet()) {
 				Object value = params.get(key);
+				if (value == null || StringUtils.isBlank(String.valueOf(value))) {
+					continue;
+				}
 				sb.append("&").append(key).append("=").append(value);
 			}
 		}
