@@ -23,7 +23,7 @@ public class SignUtil {
 
   /**
    * 获取签名
-   * 
+   *
    * @param keySecret 秘钥（必填）
    * @param params 参数（必填）
    * @return 签名字符串

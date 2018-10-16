@@ -15,7 +15,7 @@ import java.util.UUID;
  ****************************************
  */
 public class CBSBuilder {
-	private final String CBS_TEST = "http://tapi.chaboshi.cn";
+	private final String CBS_TEST = "http://jxapi.chaboshi.cn";
 	private final String CBS_ONLINE = "https://api.chaboshi.cn";
 
 	/**
@@ -87,8 +87,7 @@ public class CBSBuilder {
 	public String sendPost(String suffix, HashMap<String, Object> params) {
 		try{
 			String paramsStr = sign(params);
-			String data = HttpRequest.sendPost(URL + suffix, paramsStr);
-			return data;
+			return HttpRequest.sendPost(URL + suffix, paramsStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,8 +103,7 @@ public class CBSBuilder {
 	public String sendGet(String suffix, HashMap<String, Object> params) {
 		try {
 			String paramsStr = sign(params);
-			String data = HttpRequest.sendGet(URL + suffix, paramsStr);
-			return data;
+			return HttpRequest.sendGet(URL + suffix, paramsStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -124,7 +122,6 @@ public class CBSBuilder {
 				sb.append("&").append(key).append("=").append(value);
 			}
 		}
-		System.out.println(sb.toString());
 		long timestamp = System.currentTimeMillis();
 		String nonce = UUID.randomUUID().toString();
 		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
