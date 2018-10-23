@@ -17,7 +17,6 @@ import java.util.UUID;
 public class CBSBuilder {
 	private final String CBS_TEST = "http://jxapi.chaboshi.cn";
 	private final String CBS_ONLINE = "https://api.chaboshi.cn";
-
 	/**
 	 * 用户id
 	 */
@@ -30,7 +29,6 @@ public class CBSBuilder {
 	 * 请求域名
 	 */
 	private String URL = CBS_ONLINE;
-
 
 	private static CBSBuilder cbsBuilder = null;
 
@@ -58,7 +56,6 @@ public class CBSBuilder {
 		}
 		return cbsBuilder;
 	}
-
 
 	/**
 	 * 发送POST请求
@@ -109,6 +106,24 @@ public class CBSBuilder {
 		}
 		return null;
 	}
+
+
+	/**
+	 * 获取报告URL地址
+	 * @param suffix 请求地址：/demo/test
+	 * @param params 除构建参数以外的所有参数 (构建参数为：userId, keySecret)
+	 * @return URL
+	 */
+	public String getReportUrl(String suffix, HashMap<String, Object> params) {
+		try {
+			String paramsStr = sign(params);
+			return URL + suffix + "?" + paramsStr;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 
 	String sign(HashMap<String, Object> params) throws Exception {
 		StringBuilder sb = new StringBuilder();
