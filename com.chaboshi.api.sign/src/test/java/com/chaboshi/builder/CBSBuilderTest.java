@@ -48,8 +48,8 @@ public class CBSBuilderTest {
 		CBSBuilder cbsBuilder = CBSBuilder.newCBSBuilder(userId, keySecret, true);
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("vin", vin);
-		params.put("enginno", enginNo);
-		params.put("carno", carNo);
+		params.put("enginno", "");
+		params.put("carno", "");
 		String s = cbsBuilder.sendPost("/report/buy_report", params);
 		System.out.println(s);
 	}
