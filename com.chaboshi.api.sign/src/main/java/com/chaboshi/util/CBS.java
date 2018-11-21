@@ -134,15 +134,16 @@ public class CBS {
    * @return key → pcUrl：电脑端url、mobileUrl：手机端url
    */
   public Map<String, String> getNewReportUrl(String orderid) {
-    Map<String, String> result = new HashMap<String, String>();
-    String param = this.param(orderid);
-    String urlPC = urlCommon + "/new_report/show_report?" + param;
-    String urlMobile = urlCommon + "/new_report/show_reportMobile?" + param;
-    result.put("pcUrl", urlPC);
-    result.put("mobileUrl", urlMobile);
-    return result;
-  }
-
+	    Map<String, String> result = new HashMap<String, String>();
+	    String param = this.param(orderid);
+	    String param1 = this.param(orderid,1);
+	    String urlPC = urlCommon + "/new_report/show_report?" + param;
+	    String urlMobile = urlCommon + "/new_report/show_reportMobile?" + param;
+	    result.put("pcUrl", urlPC);
+	    result.put("mobileUrl", urlMobile);
+	    result.put("newPcUrl", urlCommon+"/new_report/show_report?"+param1);
+	    return result;
+	  }
   /**
    * 获取报告Json数据
    * 
@@ -318,6 +319,9 @@ public class CBS {
     return param(orderid, null, null, null, null);
   }
 
+  private String param(String orderid,int type) {
+	    return param(orderid, null, null, null, null,type);
+	  }
   /**
    * 拼装参数
    * 
@@ -376,7 +380,51 @@ public class CBS {
 
     return content.toString();
   }
+  
+  private String param(String orderid, String vin, String enginno, String licensePlate, String callbackurl,int type) {
+	    long timestamp = System.currentTimeMillis();
+	    String Nonce = UUID.randomUUID().toString();
+	    StringBuilder content = new StringBuilder();
+	    // 用户id
+	    content.append("userid").append('=').append(userid);
+	    // 订单id
+	    if (orderid != null && !orderid.isEmpty()) {
+	      content.append("&orderid").append('=').append(orderid);
+	    }
+	    // 随机数
+	    content.append("&nonce").append('=').append(Nonce);
+	    // 时间戳
+	    content.append("&timestamp").append('=').append(timestamp);
+	    // 车架号
+	    if (vin != null && !vin.isEmpty()) {
+	      content.append("&vin").append('=').append(vin);
+	    }
+	    // 发动机号
+	    if (enginno != null && !enginno.isEmpty()) {
+	      content.append("&enginno").append('=').append(enginno);
+	    }
+	    // 车牌号
+	    if (licensePlate != null && !licensePlate.isEmpty()) {
+	      content.append("&licenseplate").append('=').append(licensePlate);
+	    }
 
+	    if (licensePlate != null && !licensePlate.isEmpty()) {
+		      content.append("&licenseplate").append('=').append(licensePlate);
+		    }
+	    // 回调地址
+	    if (callbackurl != null && !callbackurl.isEmpty()) {
+	        content.append("&callbackurl").append('=').append(callbackurl);
+	      }
+	    if (type == 1) {
+	      content.append("&type").append('=').append(type);
+	    }
+
+	    // 签名
+	    String signAture = getSignature(content);
+	    content.append("&signature").append('=').append(signAture);
+
+	    return content.toString();
+	  }
   /**
    * 估价拼接参数
    * 
