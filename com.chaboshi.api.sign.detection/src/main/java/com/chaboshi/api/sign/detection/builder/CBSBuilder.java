@@ -5,6 +5,7 @@ import com.chaboshi.api.sign.detection.http.HttpRequest;
 import com.chaboshi.api.sign.detection.signutil.SignUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ import java.util.UUID;
  ****************************************
  */
 public class CBSBuilder {
-	private final String CBS_TEST = "http://tapi.chaboshi.cn";
+	private final String CBS_TEST = "http://jxapi.chaboshi.cn";
 	private final String CBS_ONLINE = "https://api.chaboshi.cn";
 
 	/**
@@ -147,6 +148,6 @@ public class CBSBuilder {
 		sb.append("&").append(CBSField.NONCE).append("=").append(nonce);
 		String signature = SignUtil.getSignature(keySecret, sb.toString());
 		sb.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
-		return sb.toString();
+		return URLEncoder.encode(sb.toString(), "UTF-8");
 	}
 }
