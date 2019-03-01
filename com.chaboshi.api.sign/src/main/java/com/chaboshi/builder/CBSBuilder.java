@@ -127,7 +127,10 @@ public class CBSBuilder {
 
 	String sign(HashMap<String, Object> params) throws Exception {
 		StringBuilder sb = new StringBuilder();
+		StringBuilder encodeStr = new StringBuilder();
+
 		sb.append(CBSField.USER_ID).append("=").append(userId);
+		encodeStr.append(CBSField.USER_ID).append("=").append(userId);
 		if(params != null) {
 			for (String key : params.keySet()) {
 				Object value = params.get(key);
@@ -135,6 +138,8 @@ public class CBSBuilder {
 					continue;
 				}
 				sb.append("&").append(key).append("=").append(value);
+				String encode = URLEncoder.encode(String.valueOf(value), "UTF-8");
+				encodeStr.append("&").append(key).append("=").append(encode);
 			}
 		}
 		long timestamp = System.currentTimeMillis();
@@ -142,7 +147,11 @@ public class CBSBuilder {
 		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
 		sb.append("&").append(CBSField.NONCE).append("=").append(nonce);
 		String signature = SignUtil.getSignature(keySecret, sb.toString());
-		sb.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
-		return URLEncoder.encode(sb.toString(), "UTF-8");
+
+		// 生成签名后，特殊处理
+		encodeStr.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
+		encodeStr.append("&").append(CBSField.NONCE).append("=").append(nonce);
+		encodeStr.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
+		return encodeStr.toString();
 	}
 }
