@@ -32,7 +32,6 @@ public class CBSBuilder {
 	 */
 	private String URL = CBS_ONLINE;
 
-
 	private static CBSBuilder cbsBuilder = null;
 
 	private CBSBuilder(String userid, String keySecret, boolean onLine) {
@@ -45,6 +44,7 @@ public class CBSBuilder {
 
 	/**
 	 * 构建
+	 * 
 	 * @param userid
 	 * @param keySecret
 	 * @param onLine
@@ -60,10 +60,11 @@ public class CBSBuilder {
 		return cbsBuilder;
 	}
 
-
 	/**
 	 * 发送POST请求
-	 * @param suffix 请求地址：/demo/test
+	 * 
+	 * @param suffix
+	 *            请求地址：/demo/test
 	 * @return json{data}
 	 */
 	public String sendPost(String suffix) {
@@ -72,7 +73,9 @@ public class CBSBuilder {
 
 	/**
 	 * 发送GET请求
-	 * @param suffix 请求地址：/demo/test
+	 * 
+	 * @param suffix
+	 *            请求地址：/demo/test
 	 * @return json{data}
 	 */
 	public String sendGet(String suffix) {
@@ -81,12 +84,15 @@ public class CBSBuilder {
 
 	/**
 	 * 发送POST请求
-	 * @param suffix 请求地址：/demo/test
-	 * @param params 除构建参数以外的所有参数 (构建参数为：userId, keySecret)
+	 * 
+	 * @param suffix
+	 *            请求地址：/demo/test
+	 * @param params
+	 *            除构建参数以外的所有参数 (构建参数为：userId, keySecret)
 	 * @return json{data}
 	 */
 	public String sendPost(String suffix, HashMap<String, Object> params) {
-		try{
+		try {
 			String paramsStr = sign(params);
 			String data = HttpRequest.sendPost(URL + suffix, paramsStr);
 			return data;
@@ -98,8 +104,11 @@ public class CBSBuilder {
 
 	/**
 	 * 发送GET请求
-	 * @param suffix 请求地址：/demo/test
-	 * @param params 除构建参数以外的所有参数 (构建参数为：userId, keySecret)
+	 * 
+	 * @param suffix
+	 *            请求地址：/demo/test
+	 * @param params
+	 *            除构建参数以外的所有参数 (构建参数为：userId, keySecret)
 	 * @return json{data}
 	 */
 	public String sendGet(String suffix, HashMap<String, Object> params) {
@@ -115,14 +124,19 @@ public class CBSBuilder {
 
 	String sign(HashMap<String, Object> params) throws Exception {
 		StringBuilder sb = new StringBuilder();
+		StringBuilder encodeStr = new StringBuilder();
+
 		sb.append(CBSField.USER_ID).append("=").append(userId);
-		if(params != null) {
+		encodeStr.append(CBSField.USER_ID).append("=").append(userId);
+		if (params != null) {
 			for (String key : params.keySet()) {
 				Object value = params.get(key);
 				if (value == null || StringUtils.isBlank(String.valueOf(value))) {
 					continue;
 				}
 				sb.append("&").append(key).append("=").append(value);
+				String encode = URLEncoder.encode(String.valueOf(value), "UTF-8");
+				encodeStr.append("&").append(key).append("=").append(encode);
 			}
 		}
 		long timestamp = System.currentTimeMillis();
@@ -130,7 +144,11 @@ public class CBSBuilder {
 		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
 		sb.append("&").append(CBSField.NONCE).append("=").append(nonce);
 		String signature = SignUtil.getSignature(keySecret, sb.toString());
-		sb.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
-		return URLEncoder.encode(sb.toString(), "UTF-8");
+
+		// 生成签名后，特殊处理
+		encodeStr.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
+		encodeStr.append("&").append(CBSField.NONCE).append("=").append(nonce);
+		encodeStr.append("&").append(CBSField.SIGNATURE).append("=").append(signature);
+		return encodeStr.toString();
 	}
 }
