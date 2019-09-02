@@ -15,34 +15,28 @@ import java.util.UUID;
  * SDK签名
  */
 public class SDK {
-	private final String TEST = "http://127.0.0.1:8080";
-	private final String LINE = "http://123.56.156.238";
+	private final String URL = "http://123.56.156.238";//请求地址
 	
 	private String userid;//用户id
 	
 	private String token;//用户token
 	
-	private String URL = LINE;//请求地址
-
 	private static SDK sdk = null;
 
-	private SDK(String userid, String token, boolean environment) {
+	private SDK(String userid, String token) {
 		this.userid = userid;
 		this.token = token;
-		if (!environment) {
-			URL = TEST;
-		}
 	}
 
 	/**
 	 * 构建
 	 */
-	public static synchronized SDK newSDK(String userId, String token, boolean environment) {
+	public static synchronized SDK newSDK(String userId, String token) {
 		if (userId == null || token == null || userId.isEmpty() || token.isEmpty()) {
 			throw new RuntimeException("参数为空");
 		}
 		if (sdk == null || !userId.equals(sdk.userid)) {
-			sdk = new SDK(userId, token, environment);
+			sdk = new SDK(userId, token);
 		}
 		return sdk;
 	}

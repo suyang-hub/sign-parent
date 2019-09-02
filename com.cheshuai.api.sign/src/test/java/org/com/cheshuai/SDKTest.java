@@ -11,7 +11,7 @@ public class SDKTest {
 	public void newSDK(){
 		String userId = "145";
 		String key = "456cc716dbcf41e1aa1d1e13b9a6f7cf";
-		SDK sdk = SDK.newSDK(userId, key, false);
+		SDK sdk = SDK.newSDK(userId, key);
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("vin", "LFV3A23C1J3141163");
 		params.put("enginno", "D26445");
