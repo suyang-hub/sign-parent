@@ -30,6 +30,5 @@
 		<module>com.chaboshi.api.sign.detection</module>
 		<module>com.chaboshi.api.sign.valuate</module>
 		<module>com.chaboshi.api.sign.warranty</module>
-        <module>com.cheshuai.api.sign</module>
   </modules>
 </project>
