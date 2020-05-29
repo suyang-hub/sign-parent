@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.chaboshi</groupId>
 		<artifactId>sign-parent</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>com.chaboshi.api.sign.valuate</artifactId>
 	<packaging>jar</packaging>
