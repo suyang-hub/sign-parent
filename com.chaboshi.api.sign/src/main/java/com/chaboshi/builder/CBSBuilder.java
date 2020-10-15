@@ -4,6 +4,8 @@ import com.chaboshi.constants.CBSField;
 import com.chaboshi.http.HttpRequest;
 import com.chaboshi.signUtil.SignUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -16,7 +18,9 @@ import java.util.UUID;
  ****************************************
  */
 public class CBSBuilder {
-	private final String CBS_TEST = "https://tapi.chaboshi.cn";
+	private static final Logger logger = LoggerFactory.getLogger(HttpRequest.class);
+
+	private final String CBS_TEST = "https://jxapi.chaboshi.cn";
 	private final String CBS_ONLINE = "https://api.chaboshi.cn";
 	/**
 	 * 用户id
@@ -86,7 +90,7 @@ public class CBSBuilder {
 			String paramsStr = sign(params);
 			return HttpRequest.sendPost(URL + suffix, paramsStr);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("sendPost异常", e);
 		}
 		return null;
 	}
@@ -142,8 +146,8 @@ public class CBSBuilder {
 				encodeStr.append("&").append(key).append("=").append(encode);
 			}
 		}
-		long timestamp = System.currentTimeMillis();
-		String nonce = UUID.randomUUID().toString();
+		long timestamp = 1600064340038l;//System.currentTimeMillis();
+		String nonce = "2d90cb0a-f652-11ea-a277-309c23b16ffa";//UUID.randomUUID().toString();
 		sb.append("&").append(CBSField.TIMESTAMP).append("=").append(timestamp);
 		sb.append("&").append(CBSField.NONCE).append("=").append(nonce);
 		String signature = SignUtil.getSignature(keySecret, sb.toString());

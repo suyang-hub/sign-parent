@@ -31,13 +31,13 @@ public class CBS {
 
   private static CBS instance = null;
 
-  private static String urlCommon = "http://api.chaboshi.cn";
+  private static String urlCommon = "https://api.chaboshi.cn";
 
   private CBS(String userid, String keySecret, boolean onLine) {
     this.userid = userid;
     this.keySecret = keySecret;
     if (!onLine) {
-      urlCommon = "http://tapi.chaboshi.cn";
+      urlCommon = "https://tapi.chaboshi.cn";
     }
   }
 

@@ -40,16 +40,17 @@ public class CBSBuilderTest {
 
 	@Test
 	public void testBuyReport() {
-		final String userId = "104";
-		final String keySecret = "cdb7cee9495f159710cc6280528c3868";
-		String vin = "WBAKB41029C321863";
-		String enginNo = "vcdasd";
-		String carNo = "京HJDDD";
-		CBSBuilder cbsBuilder = CBSBuilder.newCBSBuilder(userId, keySecret, true);
+		final String userId = "123";
+		final String keySecret = "f917a1c66fc2b91f85f4f07b12000136";
+		String vin = "LE4WG4CB0FL045502";
+//		String enginNo = "vcdasd";
+//		String carNo = "京HJDDD";
+		CBSBuilder cbsBuilder = CBSBuilder.newCBSBuilder(userId, keySecret, false);
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put("vin", vin);
-		params.put("enginno", "");
-		params.put("carno", "");
+//		params.put("vin", vin);
+		params.put("ordeid", "f81abb312313b1238808");
+//		params.put("enginno", "");
+//		params.put("carno", "");
 		String s = cbsBuilder.sendPost("/report/buy_report", params);
 		System.out.println(s);
 	}
@@ -94,6 +95,24 @@ public class CBSBuilderTest {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("orderid", orderid);
 		String s = cbsBuilder.getReportUrl("/claim/report/show", params);
+		System.out.println(s);
+	}
+
+	@Test
+	public void getBrand1() {
+		CBSBuilder c = CBSBuilder.newCBSBuilder("1854879", "6e69ebb3c2179058f9cb66e04b7f3d0c", false);
+		HashMap param = new HashMap();
+		param.put("vin", "LFMAP22C3F0728422");
+		String s = c.sendPost("/warranty/v1/brand", param);
+		System.out.println(s);
+	}
+
+	@Test
+	public void reportBuy() {
+		CBSBuilder c = CBSBuilder.newCBSBuilder("2277465", "ffd8711171f709622ec00a94afa849d4", true);
+		HashMap param = new HashMap();
+		param.put("vin", "LFV**************");
+		String s = c.sendPost("/new_report/buy", param);
 		System.out.println(s);
 	}
 }
